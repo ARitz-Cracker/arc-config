@@ -1,0 +1,20 @@
+{
+	"name": "arc-config",
+	"version": "1.0.0",
+	"description": "Some config file format I made.",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ARitz-Cracker/arc-config"
+	},
+	"keywords": [
+		"format",
+		"config"
+	],
+	"author": "Aritz Beobide-Cardinal",
+	"license": "GPL3",
+	"bugs": {
+		"url": "https://github.com/ARitz-Cracker/arc-config/issues"
+	},
+	"homepage": "https://github.com/ARitz-Cracker/arc-config"
+}
