@@ -19,8 +19,9 @@ objects."are awesome." yes
 `);
 
 console.log(util.inspect(config));
-/*
-Outputs:
+```
+Output:
+```
 {
     'key': 'value',
     'objects': {
@@ -29,5 +30,4 @@ Outputs:
         'are awesome.': true
     }
 }
-*/
 ```
