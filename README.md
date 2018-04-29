@@ -6,7 +6,7 @@ My own config file format. Object oriented and easy to read.
 
 `npm install arc-config`
 
-js```
+```js
 
 let config = require("arc-config").Decode(`
 # Comments start with a '#'
@@ -21,13 +21,13 @@ objects."are awesome." yes
 console.log(util.inspect(config));
 /*
 Outputs:
-	{
-		'key': 'value',
-		'objects': {
-			'_root': 'are amazing',
-			'have': 'properties',
-			'are awesome.': true
-		}
-	}
+{
+    'key': 'value',
+    'objects': {
+        '_root': 'are amazing',
+        'have': 'properties',
+        'are awesome.': true
+    }
+}
 */
 ```
