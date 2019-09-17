@@ -1,8 +1,14 @@
 {
 	"name": "arc-config",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Some config file format I made.",
 	"main": "index.js",
+	"scripts": {
+		"test": "mocha",
+		"test:cov": "nyc --check-coverage --lines 100 --functions 100 --branches 100 --statements 100 mocha",
+		"travis:start": "eslint . && npm run test:cov",
+		"travis:after": "nyc report --reporter=text-lcov | coveralls"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ARitz-Cracker/arc-config"
@@ -11,10 +17,16 @@
 		"format",
 		"config"
 	],
-	"author": "Aritz Beobide-Cardinal",
-	"license": "GPL3",
+	"author": "Aritz Beobide-Cardinal <aritz@aritzcracker.ca>",
+	"license": "Zlib",
 	"bugs": {
 		"url": "https://github.com/ARitz-Cracker/arc-config/issues"
 	},
-	"homepage": "https://github.com/ARitz-Cracker/arc-config"
+	"homepage": "https://github.com/ARitz-Cracker/arc-config",
+	"devDependencies": {
+		"chai": "^4.2.0",
+		"eslint": "^6.4.0",
+		"mocha": "^6.2.0",
+		"nyc": "^14.1.1"
+	}
 }

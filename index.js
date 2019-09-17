@@ -6,80 +6,143 @@
  * Copyright (c) Aritz Beobide-Cardinal
  * Licensed under the GNU GPLv3 license.
  *
- * TODO: Support {}
  *
  */
-exports.Decode = function(str){
-	str = str.replace(/\r/gm,"").replace(/\t/gm," ");
-	var result = {}
-	var lines = str.split("\n");
-	for (var i=0;i<lines.length;i+=1){
-		var c = lines[i].indexOf("#");
-		var line = "";
-		if (c>=0){
-			line = lines[i].substring(0,c);
-		}else{
-			line = lines[i];
-		}
-		////console.log(line)
-		line = line.trim();
-		
-		if (line.length == 0){continue;} // Ignore blank line (or a line only containing a comment)
-		var keyArr = [];
-		var val;
-		
-		var quote = false
-		var curKey = "";
-		for (var ii=0;ii<line.length;ii+=1){
-			if (quote){
-				if(line[ii] == "\""){
-					quote = false;
-				}else{
-					curKey += line[ii];
-				}
-			}else if(line[ii] == "."){
-				keyArr.push(curKey);
-				curKey = "";
-			}else if(line[ii] == "\""){
-				quote = true;
-			}else if(line[ii] == " "){
-				val = line.substring(ii);
-				break;
-			}else{
-				curKey += line[ii];
-			}
-		}
-		if (quote){
-			throw new SyntaxError("There's an open quitation mark without a closing quotation mark on line "+(i+1));
-		}
-		keyArr.push(curKey);
+const guessValType = function(val){
+	if(val === "true" || val === "yes"){
+		return true;
+	}else if(val === "false" || val === "no"){
+		return false;
+	}else if(isNaN(val)){
+		return val;
+	}
+	return Number(val);
+};
 
-		val = val.trim(); // I would use trimLeft here but apperently that isn't standard or something
-		
-		var layer = result;
-		for(var ii=0; ii<keyArr.length-1; ii+=1){
-			curlayer = layer[keyArr[ii]];
-			if (curlayer == null){
-				layer[keyArr[ii]] = {};
-			}else if (typeof curlayer != "object"){
-				layer[keyArr[ii]] = {}
-				layer[keyArr[ii]]._root = curlayer
+const STATE_KEY = 0;
+const STATE_QUOTE_KEY = 1;
+const STATE_VALUE = 2;
+// const STATE_BRACKET = 3;
+const STATE_COMMENT = 4;
+
+exports.Decode = function(str = ""){
+	str = str.replace(/\r/gm, "").replace(/\t/gm, " ");
+	const result = {};
+	let curObject = result;
+	let state = 0;
+	let curKey = "";
+	let curVal = "";
+	let bracket;
+	for(let i = 0; i < str.length; i += 1){
+		const c = str[i];
+		if(c === "#" && state !== STATE_QUOTE_KEY){
+			switch(state){
+				case STATE_VALUE:
+					curVal = curVal.trim();
+					if(curVal !== ""){
+						curObject[curKey] = guessValType(curVal);
+						curVal = "";
+					}
+				case STATE_KEY:
+					curKey = "";
+				default:
+					// None
 			}
-			layer = layer[keyArr[ii]];
+			state = STATE_COMMENT;
 		}
-		var ii = keyArr.length-1;
-		if (val === "true" || val === "yes"){
-			layer[keyArr[ii]] = true;
-		}else if (val === "false" || val === "no"){
-			layer[keyArr[ii]] = false;
-		}else if(isNaN(val)){
-			layer[keyArr[ii]] = val;
-		}else{
-			layer[keyArr[ii]] = Number(val);
+		switch(state){
+			case STATE_KEY:
+				if(curKey === ""){
+					switch(c){
+						case " ":
+						case "\n":
+							break;
+						case "\"":
+							state = STATE_QUOTE_KEY;
+							break;
+						case "{":
+							if(bracket != null){
+								throw new Error("Nested brackets aren't allowed");
+							}
+							bracket = curObject;
+							break;
+						case "}":
+							bracket = null;
+							curObject = result;
+							break;
+						default:
+							curKey += c;
+					}
+					break;
+				}
+				switch(c){
+					case " ":
+						state = STATE_VALUE;
+						break;
+					case ".":{
+						const newObject = curObject[curKey];
+						if(newObject == null){
+							curObject[curKey] = {};
+							curObject = curObject[curKey];
+						}else if(typeof newObject === "object"){
+							curObject = newObject;
+						}else{
+							curObject[curKey] = {_root: newObject};
+							curObject = curObject[curKey];
+						}
+						curKey = "";
+						break;
+					}
+					default:
+						curKey += c;
+				}
+				break;
+			case STATE_QUOTE_KEY: // Quoted key
+				if(c === "\""){
+					state = STATE_KEY;
+				}else{
+					curKey += c;
+				}
+				break;
+			case STATE_VALUE: // value
+				if(c === "\n"){
+					curVal = curVal.trim();
+					if(curVal !== ""){
+						curObject[curKey] = guessValType(curVal);
+						curVal = "";
+					}
+					curKey = "";
+					if(bracket == null){
+						curObject = result;
+					}else{
+						curObject = bracket;
+					}
+					state = STATE_KEY;
+				}else{
+					curVal += c;
+				}
+				break;
+			case STATE_COMMENT: // Comment
+				if(c === "\n"){
+					if(bracket == null){
+						curObject = result;
+					}else{
+						curObject = bracket;
+					}
+					state = STATE_KEY;
+				}
+				break;
+			/* istanbul ignore next */
+			default:
+				throw new Error("Unknown state! " + state + " this should never happen!");
 		}
-		
+	}
+	curVal = curVal.trim();
+	if(curVal !== ""){
+		curObject[curKey] = guessValType(curVal);
+		curVal = "";
 	}
 	return result;
-	
-}
+};
 
+exports.decode = exports.Decode;
