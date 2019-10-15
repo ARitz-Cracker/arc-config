@@ -80,6 +80,22 @@ exports.Decode = function(str = ""){
 						state = STATE_VALUE;
 						break;
 					case ".":{
+						if(str[i + 1] === "["){
+							const i2 = str.indexOf("]", i + 1);
+							const lines = str.substring(i + 2, i2).split("\n");
+							const value = [];
+							for(let ii = 0; ii < lines.length; ii += 1){
+								let[val] = lines[ii].split("#", 1);
+								val = val.trim();
+								if(val){
+									value.push(guessValType(val));
+								}
+							}
+							curObject[curKey] = value;
+							curKey = "";
+							i = i2;
+							break;
+						}
 						const newObject = curObject[curKey];
 						if(newObject == null){
 							curObject[curKey] = {};
