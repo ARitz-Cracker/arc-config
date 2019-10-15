@@ -27,6 +27,10 @@ objects."are awesome." yes
 objects."also have brackets".{
     totally my dude
 }
+objects.can_also_contain_arrays.[
+    totally
+    my dude
+]
 `);
 
 console.log(util.inspect(config));
@@ -41,7 +45,11 @@ Output:
         'are awesome.': true,
         'also have brackets': {
             'totally': "my dude"
-        }
+        },
+        'can_also_contain_arrays': [
+            "totally"
+            "my dude"
+        ]
     }
 }
 ```
@@ -53,7 +61,10 @@ Output:
 [node-version-url]: https://nodejs.org/en/download/
 
 [build-status-image]: https://travis-ci.org/ARitz-Cracker/arc-config.svg
-[build-status-url]: https://travis-ci.org/ARitz-Cracker/arc-config
+[bu{
+	abcd yes
+	1234 yes
+}ild-status-url]: https://travis-ci.org/ARitz-Cracker/arc-config
 
 [license-image]: https://img.shields.io/npm/l/arc-config.svg?maxAge=2592000
 [license-url]: LICENSE

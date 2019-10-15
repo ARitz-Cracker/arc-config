@@ -234,4 +234,38 @@ describe("aritz.conf decoder", function() {
 			}
 		});
 	});
+	it("has arrays", function() {
+		expect(
+			decode(
+				"aaaa.[\n" +
+				"hello\n" +
+				"world\n" +
+				"yes\n" +
+				"]"
+			)
+		).to.deep.equal({
+			aaaa: [
+				"hello",
+				"world",
+				true
+			]
+		});
+	});
+	it("handles comments in arrays", function() {
+		expect(
+			decode(
+				"aaaa.[#aaaa\n" +
+				"hello#bbb\n" +
+				"world#ccc\n" +
+				"yes#dd\n" +
+				"]"
+			)
+		).to.deep.equal({
+			aaaa: [
+				"hello",
+				"world",
+				true
+			]
+		});
+	});
 });
