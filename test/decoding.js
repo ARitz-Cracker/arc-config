@@ -268,4 +268,32 @@ describe("aritz.conf decoder", function() {
 			]
 		});
 	});
+	it("has arrays along with other stuff", function() {
+		expect(
+			decode(
+				"aaaa.bbbb.[\n" +
+				"hello\n" +
+				"world\n" +
+				"yes\n" +
+				"]\n" +
+				"\n" +
+				"aaaa.cccc.{\n" +
+				"hello world\n" +
+				"thank you\n" +
+				"}"
+			)
+		).to.deep.equal({
+			aaaa: {
+				bbbb: [
+					"hello",
+					"world",
+					true
+				],
+				cccc: {
+					hello: "world",
+					thank: "you"
+				}
+			}
+		});
+	});
 });

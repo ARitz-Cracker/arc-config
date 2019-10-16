@@ -9,13 +9,11 @@ My own config file format. Object oriented and easy to read.
 [![Coverage Status](https://coveralls.io/repos/github/ARitz-Cracker/arc-config/badge.svg)](https://coveralls.io/github/ARitz-Cracker/arc-config)
 [![License][license-image]][license-url]
 
-## USAGE:
+## USAGE
 
 `npm install arc-config`
 
--
 ```js
-
 let config = require("arc-config").decode(`
 # Comments start with a '#'
 
@@ -35,8 +33,10 @@ objects.can_also_contain_arrays.[
 
 console.log(util.inspect(config));
 ```
+
 Output:
-```
+
+```js
 {
     'key': 'value',
     'objects': {
@@ -61,10 +61,7 @@ Output:
 [node-version-url]: https://nodejs.org/en/download/
 
 [build-status-image]: https://travis-ci.org/ARitz-Cracker/arc-config.svg
-[bu{
-	abcd yes
-	1234 yes
-}ild-status-url]: https://travis-ci.org/ARitz-Cracker/arc-config
+[build-status-url]: https://travis-ci.org/ARitz-Cracker/arc-config
 
 [license-image]: https://img.shields.io/npm/l/arc-config.svg?maxAge=2592000
 [license-url]: LICENSE
