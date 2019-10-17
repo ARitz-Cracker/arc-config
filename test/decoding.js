@@ -296,4 +296,29 @@ describe("aritz.conf decoder", function() {
 			}
 		});
 	});
+	it("has arrays that can work in brackets", function() {
+		expect(
+			decode(
+				"aaaa.{\n" +
+				"bbbb.[\n" +
+					"hello\n" +
+					"world\n" +
+					"yes\n" +
+				"]\n" +
+				"hello world\n" +
+				"thank you\n" +
+				"}"
+			)
+		).to.deep.equal({
+			aaaa: {
+				bbbb: [
+					"hello",
+					"world",
+					true
+				],
+				hello: "world",
+				thank: "you"
+			}
+		});
+	});
 });
