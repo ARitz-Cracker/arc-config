@@ -93,6 +93,11 @@ exports.Decode = function(str = ""){
 							}
 							curObject[curKey] = value;
 							curKey = "";
+							if(bracket == null){
+								curObject = result;
+							}else{
+								curObject = bracket;
+							}
 							i = i2;
 							break;
 						}

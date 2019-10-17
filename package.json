@@ -1,6 +1,6 @@
 {
 	"name": "arc-config",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Some config file format I made.",
 	"main": "index.js",
 	"scripts": {
