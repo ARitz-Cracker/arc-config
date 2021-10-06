@@ -321,4 +321,11 @@ describe("aritz.conf decoder", function() {
 			}
 		});
 	});
+	it("decodes a number looking thing as a big int if it's >= 2 ** 53", function() {
+		expect(
+			decode("hello 9007199254740992")
+		).to.deep.equal({
+			hello: 9007199254740992n,
+		});
+	});
 });

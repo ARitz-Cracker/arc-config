@@ -1,6 +1,6 @@
 {
 	"name": "arc-config",
-	"version": "1.1.2",
+	"version": "1.2.0",
 	"description": "Some config file format I made.",
 	"main": "index.js",
 	"scripts": {
@@ -24,9 +24,9 @@
 	},
 	"homepage": "https://github.com/ARitz-Cracker/arc-config",
 	"devDependencies": {
-		"chai": "^4.2.0",
-		"eslint": "^6.4.0",
-		"mocha": "^6.2.0",
-		"nyc": "^14.1.1"
+		"chai": "^4.3.4",
+		"eslint": "^7.32.0",
+		"mocha": "^9.1.2",
+		"nyc": "^15.1.0"
 	}
 }

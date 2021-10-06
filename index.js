@@ -16,7 +16,11 @@ const guessValType = function(val){
 	}else if(isNaN(val)){
 		return val;
 	}
-	return Number(val);
+	const floatVal = Number(val);
+	if(floatVal > Number.MAX_SAFE_INTEGER){
+		return BigInt(val);
+	}
+	return floatVal;
 };
 
 const STATE_KEY = 0;

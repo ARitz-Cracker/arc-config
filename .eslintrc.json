@@ -1,12 +1,13 @@
 {
     "parserOptions": {
-		"ecmaVersion": 9,
+		"ecmaVersion": 11,
 		"sourceType": "script"
 	},
 	"env": {
 		"browser": true,
 		"node": true,
-		"es6": true
+		"es6": true,
+		"es2020": true
 	},
 	"extends": "eslint:recommended",
 	"rules": {
